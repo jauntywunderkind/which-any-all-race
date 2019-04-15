@@ -3,18 +3,18 @@ import Deferrant from "deferrant"
 
 export async function whichAll( promises, { signal}){
 	let d= Deferrant({ signal})
-	d.resolveds= []
+	d.values= []
 	d.referenceCount= 0
-	function resolve( resolved){
+	function resolve( value){
 		if( !d){
 			return
 		}
-		d.resolveds[ this.index]= resolved
+		d.resolves[ this.index]= value
 		if( --d.referenceCount=== 0){
-			const resolveds= d.resolveds
-			d.resolveds= null
+			const values= d.values
+			d.values= null
 			d= null
-			d.resolve( resolveds)
+			d.resolve( values)
 		}
 	}
 	function reject( reason){
@@ -23,7 +23,7 @@ export async function whichAll( promises, { signal}){
 		}
 		// cleanup
 		const _d= d
-		d.resolveds= null
+		d.values= null
 		d= null
 		// we're the first to reject, reject:
 		_d.reject({
@@ -41,6 +41,6 @@ export async function whichAll( promises, { signal}){
 	return d
 }
 export {
-	whichAll as WhichAll,
-	whichAll as default
+  whichAll as default,
+  whichAll as WhichAll
 }

@@ -3,35 +3,35 @@ import Deferrant from "deferrant"
 
 export async function *whichAny( promises, { signal}){
 	let d= Deferrant({ signal})
-	d.rejections= []
+	d.reasons= []
 	d.referenceCount= 0
-	function resolve( resolved){
+	function resolve( value){
 		if( !d){
 			return
 		}
 		const _d= d
 		// cleanup
-		d.rejections= null
+		d.reasons= null
 		d= null
 		// we're the first any, resolve!
 		_d.resolve({
 			...this,
-			value: resolved,
+			value
 		})
 	}
-	function reject( rejection){
+	function reject( reason){
 		if( !d){
 			return
 		}
 		// add ourselves to rejections
-		d.rejections[ this.index]= reason
+		d.reasons[ this.index]= reason
 		// mark another error as handled
 		if( --d.referenceCount=== 0){
 			// all rejections collected
-			const rejections= d.rejections
-			d.rejections= null
+			const reasons= d.reasons
+			d.reasons= null
 			d= null
-			d.reject( rejections)
+			d.reject( reasons)
 		}
 	}
 	for( const promise of promises){
@@ -44,6 +44,6 @@ export async function *whichAny( promises, { signal}){
 	return d
 }
 export {
-	whichAny as WhichAny,
-	whichAny as default
+  whichAny as default,
+  whichAny as WhichAny
 }

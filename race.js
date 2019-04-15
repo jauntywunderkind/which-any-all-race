@@ -3,7 +3,7 @@ import Deferrant from "deferrant"
 
 export async function whichRace( promises, { signal}){
 	let d= Deferrant({ signal})
-	function resolve( resolved){
+	function resolve( value){
 		if( !d){
 			return
 		}
@@ -13,10 +13,10 @@ export async function whichRace( promises, { signal}){
 		// resolve
 		d.resolve({
 			...this,
-			resolved
+			value
 		})
 	}
-	function reject( rejection){
+	function reject( reason){
 		if( !d){
 			return
 		}
@@ -26,7 +26,7 @@ export async function whichRace( promises, { signal}){
 		// reject
 		_d.reject({
 			...this,
-			rejection
+			reason
 		})
 	}
 	let index= 0
