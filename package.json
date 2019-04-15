@@ -1,0 +1,22 @@
+{
+	"name": "which-any-all-race-settled",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://archive.eldergods.com/which-any-all-race-settled"
+	},
+	"keywords": [],
+	"author": "jauntywunderkind",
+	"license": "MIT",
+	"module": "which-any-all-race-settled.js",
+	"esm": true,
+	"dependencies": {
+		"deferrant": "^1.4.0"
+	}
+}
